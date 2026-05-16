@@ -1,558 +1,950 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="gu" data-theme="light">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Akshar GST Billing — Fixed Navigation & Neon Header</title>
-<style>
-  :root{
-    --bg:#05060a; --panel:#071018; --muted:#9fb3c8;
-    --accent1:#00f0ff; --accent2:#ff66ff; --card-radius:12px;
-    --glass-border:1px solid rgba(255,255,255,0.04);
-  }
-  html,body{height:100%;margin:0;background:
-    radial-gradient(800px 400px at 10% -10%, rgba(0,240,255,0.03), transparent 20%),
-    radial-gradient(700px 350px at 110% 110%, rgba(255,102,255,0.02), transparent 20%),
-    var(--bg); color:#e6eef6; font-family: "Segoe UI", Roboto, Inter, system-ui; -webkit-font-smoothing:antialiased;}
-  header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-bottom:1px solid rgba(255,255,255,0.02);position:sticky;top:0;z-index:50}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#041014;font-weight:900}
-  .brand .title{font-weight:800}
-  nav.nav{display:flex;gap:8px}
-  nav.nav button{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer}
-  nav.nav button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#041014;border:none;box-shadow:0 8px 30px rgba(0,240,255,0.06)}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance "HARDI PATEL" V6.0.0 - Premium Dashboard Edition</title>
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400;500;700;900&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+    <style>
+        :root[data-theme="light"] {
+            --color-bg: #f1f5f9;
+            --color-surface: #ffffff;
+            --color-border: #e2e8f0;
+            --color-primary: #0f172a;
+            --color-accent: #0284c7;
+            --color-success: #10b981;
+            --color-danger: #ef4444;
+            --color-warning: #f59e0b;
+            --color-text-muted: #64748b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px -3px rgba(15, 23, 42, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-blur: blur(12px);
+        }
+        
+        :root[data-theme="dark"] {
+            --color-bg: #0b0f19;
+            --color-surface: #111827;
+            --color-border: #1f2937;
+            --color-primary: #f8fafc;
+            --color-accent: #38bdf8;
+            --color-success: #34d399;
+            --color-danger: #f87171;
+            --color-warning: #fbbf24;
+            --color-text-muted: #94a3b8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-blur: blur(12px);
+        }
 
-  .wrap{max-width:1200px;margin:20px auto;padding:18px;display:grid;grid-template-columns:1fr 360px;gap:18px}
-  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border-radius:12px;padding:16px;border:var(--glass-border)}
-  .hero{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(0,240,255,0.04), rgba(255,102,255,0.03));border:1px solid rgba(255,255,255,0.03)}
-  .hero-left{display:flex;gap:14px;align-items:center}
-  .logo-lg{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#041014;font-size:22px}
-  /* Neon company name box */
-  .neon-company{
-    padding:10px 14px;border-radius:10px;position:relative;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 6px 30px rgba(0,240,255,0.06);
-  }
-  .neon-company .name{
-    font-weight:900;color:#eaffff;font-size:18px;letter-spacing:0.2px;
-    position:relative; z-index:2;
-  }
-  /* neon border effect */
-  .neon-company::before{
-    content:""; position:absolute; inset:-2px; border-radius:12px;
-    background: linear-gradient(90deg, rgba(0,240,255,0.25), rgba(255,102,255,0.18));
-    filter: blur(8px); z-index:1; opacity:0.9;
-  }
-  .neon-company .meta{color:var(--muted);font-size:13px;margin-top:6px}
+        body { margin:0; font-family:'Satoshi', sans-serif; background:var(--color-bg); color:var(--color-primary); -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; }
+        .app { display:grid; grid-template-columns: 280px 1fr; min-height:100vh; }
+        
+        /* Sidebar */
+        .sidebar { background:var(--color-surface); border-right:1px solid var(--color-border); padding:2rem 1.5rem; display:flex; flex-direction:column; gap:0.5rem; }
+        .sidebar h2 { font-size: 1.4rem; font-weight: 900; color: var(--color-primary); margin: 0 0 2rem 0; letter-spacing: -0.5px; display: flex; align-items: center; justify-content: space-between; }
+        .sidebar h2 span { background: var(--color-accent); color: #0f172a; padding: 4px 8px; font-size: 11px; border-radius: 6px; }
+        
+        .btn-nav { padding:0.8rem 1rem; border-radius:12px; border:none; cursor:pointer; font-weight:600; font-size:0.95rem; background:transparent; color:var(--color-text-muted); transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 12px; }
+        .btn-nav:hover { background: var(--color-bg); color: var(--color-primary); }
+        .btn-nav.active { background: rgba(2, 132, 199, 0.15); color: var(--color-accent); border-left: 4px solid var(--color-accent); padding-left: 12px; }
+        
+        .main { padding:2.5rem; overflow-y: auto; }
+        .page { animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-md); }
+        
+        /* Stylish Welcome Banner */
+        .welcome-banner { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 2.5rem; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .welcome-banner::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(2,132,199,0.2) 0%, transparent 70%); pointer-events: none; }
+        .welcome-banner h1 { margin: 0; font-size: 2.2rem; font-weight: 900; letter-spacing: -1px; }
+        .welcome-banner p { margin: 8px 0 0 0; color: #94a3b8; font-size: 1rem; font-weight: 500; }
+        .live-clock { background: rgba(255,255,255,0.07); padding: 10px 20px; border-radius: 30px; font-weight: 700; font-size: 1rem; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.1); letter-spacing: 0.5px; }
+        
+        /* Stylish Grid UI */
+        .grid-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        
+        /* Premium Dashboard Cards */
+        .dash-card { background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--color-border); border-radius: 24px; padding: 1.8rem; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .dash-card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); }
+        .dash-card .icon-bg { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.06; font-weight: 900; pointer-events: none; }
+        .dash-card .label { font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .dash-card .value { font-size: 2.8rem; font-weight: 900; margin: 12px 0 6px 0; color: var(--color-primary); letter-spacing: -1px; }
+        .dash-card .footer-text { font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted); display: flex; align-items: center; gap: 5px; }
+        
+        /* Modern Progress Indicators */
+        .progress-container { margin-top: 12px; background: rgba(0,0,0,0.05); border-radius: 20px; height: 8px; overflow: hidden; }
+        :root[data-theme="dark"] .progress-container { background: rgba(255,255,255,0.05); }
+        .progress-bar { height: 100%; border-radius: 20px; width: 0%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Quick Actions Panel */
+        .quick-actions-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .action-tile { background: var(--color-surface); border: 1px solid var(--color-border); padding: 1.2rem; border-radius: 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 700; transition: all 0.2s; text-align: left; color: var(--color-primary); }
+        .action-tile:hover { background: var(--color-accent); color: #0f172a; border-color: var(--color-accent); transform: scale(1.02); }
+        .action-tile span { font-size: 1.5rem; }
 
-  .hero-right{display:flex;gap:12px;align-items:center}
-  .stat{background:rgba(255,255,255,0.02);padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);text-align:center;min-width:110px}
-  .stat .num{font-weight:900;color:var(--accent1);font-size:16px}
-  .stat .lbl{font-size:12px;color:var(--muted);margin-top:6px}
+        .grid-4 { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom: 1rem; }
+        .mini-counter { background: var(--color-surface); border: 1px solid var(--color-border); padding: 1rem; border-radius: 12px; font-weight: 700; font-size: 0.9rem; text-align: center; }
 
-  /* cards */
-  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
-  .card{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
-  .card .k{font-size:13px;color:var(--muted);font-weight:700}
-  .card .v{font-size:20px;font-weight:900;color:var(--accent1)}
+        .btn { padding:0.7rem 1.5rem; border-radius:12px; border:none; cursor:pointer; font-weight:600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .btn-primary { background:var(--color-accent); color: #0f172a; }
+        .btn-danger { background:var(--color-danger); color:#fff; }
+        .btn-success { background:var(--color-success); color:#fff; }
+        .btn-whatsapp { background:#25D366; color:#fff; }
+        .hidden { display:none; }
+        
+        /* BADGE MATRIX */
+        .badge-base { padding: 4px 10px; font-size: 11px; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; letter-spacing: 0.3px; text-transform: uppercase; }
+        .bg-gold-prod { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #92400e; border: 1px solid #f59e0b; }
+        .bg-gold-sales { background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%); color: #9a3412; border: 1px solid #ea580c; }
+        .bg-gold-accts { background: linear-gradient(135deg, #ecfccb 0%, #d9f99d 100%); color: #3f6212; border: 1px solid #65a30d; }
+        .bg-gold-hr { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); color: #9d174d; border: 1px solid #db2777; }
+        .bg-silver-prod { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+        .bg-silver-sales { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+        .bg-silver-accts { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .bg-silver-hr { background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
 
-  /* recent */
-  .recent{margin-top:16px}
-  .activity-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-  .activity-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.02)}
-  .dot{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#041014}
+        input, select, textarea { width:100%; padding:0.75rem 1rem; border:1px solid var(--color-border); border-radius:12px; box-sizing: border-box; margin-top: 6px; font-family: inherit; font-size: 0.9rem; background: var(--color-surface); color: var(--color-primary); }
+        
+        .search-wrapper { position: relative; margin-bottom: 1rem; }
+        .search-input { padding-left: 2.5rem; background: var(--color-surface); border: 1px solid var(--color-accent); font-weight: 500; }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-30%); color: var(--color-accent); font-size: 1.1rem; pointer-events: none; }
+        
+        .dept-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--text-muted); cursor: pointer; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+        .tab-btn.active { background: var(--color-accent); color: #0f172a; border-color: var(--color-accent); }
 
-  /* right column */
-  aside .side-panel{position:sticky;top:86px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:var(--glass-border)}
-  .quick-actions{display:flex;flex-direction:column;gap:8px;margin-top:10px}
-  .qa-btn{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.02);cursor:pointer;color:var(--muted)}
+        table { width:100%; border-collapse:collapse; margin-top:1rem; }
+        th { text-align:left; padding:1rem; font-weight: 700; color: var(--color-text-muted); background: var(--color-bg); border-bottom: 2px solid var(--color-border); font-size: 0.8rem; letter-spacing: 0.5px; }
+        td { text-align:left; padding:1rem; border-bottom:1px solid var(--color-border); font-size: 0.95rem; }
+        
+        .status-present { background-color: #dcfce7; color: #15803d; font-weight: bold; border-radius: 6px; padding: 4px 8px; border: none; }
+        .status-absent { background-color: #fee2e2; color: #b91c1c; font-weight: bold; border-radius: 6px; padding: 4px 8px; border: none; }
+        .status-half { background-color: #fef3c7; color: #92400e; border-radius: 6px; padding: 4px 8px; border: none; }
+        
+        .remark-dropdown-style { border: 1px solid var(--color-border); background: var(--color-surface); font-weight: 500; border-radius: 8px; font-size: 0.85rem; cursor: pointer; padding: 6px 12px; }
+        .remark-required-border { border: 1.5px solid var(--color-danger) !important; background: rgba(239, 68, 68, 0.03); }
+        
+        .theme-toggle-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; border-radius: 50%; }
+        .backup-section { border-top: 1px solid var(--color-border); margin-top: auto; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
 
-  /* sections for forms and lists */
-  section.app-section{display:none}
-  section.app-section.active{display:block}
+        #slipTemplateContainer { background: white; padding: 30px; font-family: 'Satoshi', sans-serif; color: #1e293b; width: 6.5in; margin: 0 auto; line-height: 1.5; border: 1px solid #cbd5e1; }
+        .slip-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-bottom: 20px; }
+        .slip-header h2 { margin: 0; font-size: 1.6rem; font-weight: 900; color: #0f172a; }
+        .slip-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; font-size: 0.9rem; }
+        .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+        .slip-table th { background: #f1f5f9; color: #0f172a; font-weight: 700; border: 1px solid #cbd5e1; padding: 8px 12px; }
+        .slip-table td { border: 1px solid #cbd5e1; padding: 10px 12px; color: #334155; }
+        .slip-total-box { background: #f8fafc; border: 1px solid #94a3b8; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; font-weight: 900; color: #0f172a; }
 
-  /* table */
-  table{width:100%;border-collapse:collapse;margin-top:12px;background:transparent;color:var(--muted)}
-  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
-  th{color:var(--accent1);font-weight:800}
-  .right{text-align:right}
-  .action-btn{margin-right:6px;padding:6px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
-  .action-btn.print{background:linear-gradient(90deg,#e6faff,#dff6ff);color:#041014;border:none}
-  .action-btn.whatsapp{background:linear-gradient(90deg,#25D366,#1DA851);color:#fff;border:none}
-
-  @media (max-width:1000px){ .wrap{grid-template-columns:1fr; padding:12px} .cards{grid-template-columns:repeat(2,1fr)} }
-  @media (max-width:600px){ .cards{grid-template-columns:1fr} .hero{flex-direction:column;align-items:flex-start} }
-</style>
+        /* FULL REPORT PDF ARCHIVE TEMPLATE STYLES */
+        #fullReportPdfContainer { background: white; padding: 40px; font-family: 'Satoshi', sans-serif; color: #0f172a; width: 8.5in; margin: 0 auto; box-sizing: border-box; }
+        .report-pdf-header { text-align: center; border-bottom: 3px double #0f172a; padding-bottom: 15px; margin-bottom: 20px; }
+        .report-pdf-header h1 { margin: 0; font-size: 2rem; font-weight: 900; letter-spacing: -0.5px; }
+        .report-pdf-header p { margin: 5px 0 0 0; color: #475569; font-size: 1rem; font-weight: 600; }
+        .report-pdf-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .report-pdf-table th { background: #0f172a; color: white; padding: 10px; font-size: 11px; text-transform: uppercase; border: 1px solid #334155; font-weight: 700; text-align: left; }
+        .report-pdf-table td { padding: 10px; font-size: 11px; border: 1px solid #cbd5e1; color: #1e293b; }
+        .report-pdf-table tr:nth-child(even) { background-color: #f8fafc; }
+    </style>
 </head>
 <body>
-<header>
-  <div class="brand">
-    <div class="logo">A</div>
-    <div>
-      <div class="title">Akshar GST Billing</div>
-      <div style="font-size:12px;color:var(--muted)">Manage bills, challans and prints</div>
-    </div>
-  </div>
 
-  <nav class="nav" aria-label="Main navigation">
-    <button data-target="dashboard" class="nav-btn active">Dashboard</button>
-    <button data-target="bill" class="nav-btn">Add Bill</button>
-    <button data-target="viewBills" class="nav-btn">View Bills</button>
-    <button data-target="challn" class="nav-btn">Challan</button>
-    <button data-target="settings" class="nav-btn">Settings</button>
-  </nav>
-</header>
-
-<div class="wrap">
-  <main>
-    <!-- Dashboard -->
-    <section id="dashboard" class="panel app-section active">
-      <div class="hero">
-        <div class="hero-left">
-          <div class="logo-lg">A</div>
-          <div class="neon-company">
-            <div class="name" id="dashCompany">Company Name</div>
-            <div class="meta" id="dashCompanySub">GST: —  •  Mobile: —  •  Surat</div>
-          </div>
+<div class="app">
+    <aside class="sidebar">
+        <h2>"BOOKSTALL" <span>V6.0.0</span> <button class="theme-toggle-btn" onclick="toggleTheme()">🌓</button></h2>
+        <button class="btn-nav active" id="nav-dashboard" onclick="switchPage('dashboard')">🏠 Dashboard Hub</button>
+        <button class="btn-nav" id="nav-employees" onclick="switchPage('employees')">👥 Employee Database</button>
+        <button class="btn-nav" id="nav-attendance" onclick="switchPage('attendance')">📝 Daily Roster</button>
+        <button class="btn-nav" id="nav-reports" onclick="switchPage('reports')">📊 Payroll & Slips</button>
+        
+        <button class="btn btn-primary" id="runAutoBtn" style="margin-top:1.5rem; justify-content: center; font-size:0.85rem;">⚡ Force Auto-Present</button>
+        
+        <div class="backup-section">
+            <button class="btn" onclick="exportBackup()" style="font-size:12px; background:var(--color-bg); color:var(--color-primary); justify-content: center;">📤 Export Vault</button>
+            <button class="btn" onclick="document.getElementById('importFile').click()" style="font-size:12px; background:var(--color-bg); color:var(--color-primary); justify-content: center;">📥 Import Vault</button>
+            <input type="file" id="importFile" class="hidden" accept=".json" onchange="importBackup(event)">
         </div>
-        <div class="hero-right">
-          <div class="stat"><div class="num" id="dashBills">0</div><div class="lbl">Total Bills</div></div>
-          <div class="stat"><div class="num" id="dashSales">₹0.00</div><div class="lbl">Total Sales</div></div>
-          <div class="stat"><div class="num" id="dashProfit">₹0.00</div><div class="lbl">Total Profit</div></div>
+    </aside>
+
+    <main class="main">
+        <section id="dashboardPage" class="page">
+            <div class="welcome-banner">
+                <div>
+                    <h1>Welcome Back, Hardi Patel!</h1>
+                    <p>Dynamic Custom Icons & Advanced Dropdown Remarks Enabled.</p>
+                </div>
+                <div class="live-clock" id="liveClock">00:00:00 PM</div>
+            </div>
+            
+            <div class="grid-dashboard">
+                <div class="dash-card">
+                    <div class="icon-bg">👥</div>
+                    <div class="label">Total Workforce</div>
+                    <div class="value" id="statTotal">0</div>
+                    <div class="footer-text">Registered Employees</div>
+                </div>
+                
+                <div class="dash-card" style="border-bottom: 4px solid var(--color-success);">
+                    <div class="icon-bg" style="color: var(--color-success)">🟢</div>
+                    <div class="label">Checked In Today</div>
+                    <div class="value" id="statPresent" style="color:var(--color-success)">0</div>
+                    <div class="footer-text" id="presentPctLabel">0% Attendance Rate</div>
+                    <div class="progress-container"><div class="progress-bar" id="presentBar" style="background: var(--color-success);"></div></div>
+                </div>
+
+                <div class="dash-card" style="border-bottom: 4px solid var(--color-danger);">
+                    <div class="icon-bg" style="color: var(--color-danger)">🔴</div>
+                    <div class="label">Absent Track</div>
+                    <div class="value" id="statAbsent" style="color:var(--color-danger)">0</div>
+                    <div class="footer-text" id="absentPctLabel">0% Absence Rate</div>
+                    <div class="progress-container"><div class="progress-bar" id="absentBar" style="background: var(--color-danger);"></div></div>
+                </div>
+
+                <div class="dash-card" style="border-bottom: 4px solid var(--color-warning);">
+                    <div class="icon-bg" style="color: var(--color-warning)">🟡</div>
+                    <div class="label">Half Day Logs</div>
+                    <div class="value" id="statHalf" style="color:var(--color-warning)">0</div>
+                    <div class="footer-text" id="halfPctLabel">0% Half Day Rate</div>
+                    <div class="progress-container"><div class="progress-bar" id="halfBar" style="background: var(--color-warning);"></div></div>
+                </div>
+            </div>
+
+            <div class="card" style="background: transparent; border: none; padding: 0;">
+                <h3 style="margin-bottom: 1rem; font-weight: 900; font-size: 1.2rem; letter-spacing: -0.5px;">⚡ Quick Management Tiles</h3>
+                <div class="quick-actions-panel">
+                    <div class="action-tile" onclick="switchPage('attendance')">
+                        <span>📝</span> Fill Today's Attendance
+                    </div>
+                    <div class="action-tile" onclick="switchPage('employees'); toggleEmpForm();">
+                        <span>➕</span> Add New Employee Profile
+                    </div>
+                    <div class="action-tile" onclick="switchPage('reports')">
+                        <span>📊</span> Compile & Export Payroll
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="employeesPage" class="page hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+                <h2>Employee Directory</h2>
+                <button class="btn btn-primary" onclick="toggleEmpForm()">+ Add Employee Profile</button>
+            </div>
+
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchEmpInput" class="search-input" placeholder="કર્મચારીનું નામ, કોડ, કે ડિપાર્ટમેન્ટથી શોધો..." onkeyup="filterEmployees()">
+            </div>
+
+            <div id="empFormContainer" class="card hidden">
+                <form id="employeeForm">
+                    <input type="hidden" id="employeeId">
+                    <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1.5rem;">
+                        <label>Code* <input id="empCode" required placeholder="EMP-101"></label>
+                        <label>Full Name* <input id="empName" required placeholder="John Doe"></label>
+                        <label>WhatsApp Number* <input id="empPhone" required placeholder="919876543210"></label>
+                        <label>Department
+                            <select id="empDept">
+                                <option value="Production">Production 🏭</option>
+                                <option value="Sales & Marketing">Sales & Marketing 📈</option>
+                                <option value="Accounts">Accounts 💰</option>
+                                <option value="Human Resources">Human Resources 👔</option>
+                            </select>
+                        </label>
+                        <label>Role / Designation*
+                            <select id="empRole">
+                                <option value="Staff">Staff Member (Silver)</option>
+                                <option value="Manager">Manager / Head (Gold 👑)</option>
+                            </select>
+                        </label>
+                        <label>Monthly Salary <input type="number" id="empSalary" placeholder="₹ Amount"></label>
+                        <label>Advance (ઉપાડ) <input type="number" id="empAdvance" value="0"></label>
+                        <label>PAN Ref <input id="empPan" placeholder="Optional Reference"></label>
+                    </div>
+                    <div style="margin-top:1.5rem; display:flex; gap:10px">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                        <button type="button" class="btn" style="background:var(--color-border)" onclick="toggleEmpForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card" style="overflow-x:auto; padding:0;">
+                <table>
+                    <thead>
+                        <tr><th>Code</th><th>Name</th><th>WhatsApp</th><th>Dynamic Badge Identity</th><th>Salary</th><th>Advance</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="empTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="attendancePage" class="page hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+                <h2>Daily Matrix Verification</h2>
+                <div style="display:flex; align-items:center; gap:10px">
+                    <span id="dayIndicator" style="font-weight:700; font-size:0.95rem; color:var(--color-accent)"></span>
+                    <input type="date" id="attDate" style="width:200px; margin-top:0;">
+                </div>
+            </div>
+
+            <div class="grid-4">
+                <div class="mini-counter">Workforce <span id="miniTotal">0</span></div>
+                <div class="mini-counter" style="color:var(--color-success)">Present <span id="miniPresent">0</span></div>
+                <div class="mini-counter" style="color:var(--color-danger)">Absent <span id="miniAbsent">0</span></div>
+                <div class="mini-counter" style="color:var(--color-warning)">Half Day <span id="miniHalf">0</span></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:1rem;">
+                <div class="dept-tabs" id="deptTabsContainer">
+                    <button class="tab-btn active" id="tabDept_All" onclick="filterDeptTab('All', this)">All Depts</button>
+                    <button class="tab-btn" onclick="filterDeptTab('Production', this)">Production 🏭</button>
+                    <button class="tab-btn" onclick="filterDeptTab('Sales & Marketing', this)">Sales 📈</button>
+                    <button class="tab-btn" onclick="filterDeptTab('Accounts', this)">Accounts 💰</button>
+                    <button class="tab-btn" onclick="filterDeptTab('Human Resources', this)">HR 👔</button>
+                    <button class="tab-btn" style="border-color:#fcd34d; background:rgba(252,211,77,0.1);" id="tabDept_Manager" onclick="filterDeptTab('ManagersOnly', this)">👑 Show Managers</button>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary" style="padding:6px 12px; font-size:12px;" onclick="bulkMarkStatus('Present')">⚡ Mark All Present</button>
+                    <button class="btn" style="padding:6px 12px; font-size:12px; background:var(--color-border)" onclick="bulkMarkStatus('Clear')">🗑️ Clear All</button>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchAttInput" class="search-input" placeholder="હાજરી પૂર્તિ લિસ્ટમાં નામથી શોધો..." onkeyup="filterAttendance()">
+            </div>
+
+            <div class="card" style="padding:0; overflow:hidden;">
+                <table>
+                    <thead><tr><th>Code</th><th>Name Identity</th><th>Status Option</th><th>Remarks Note</th></tr></thead>
+                    <tbody id="attTableBody"></tbody>
+                </table>
+                <div style="padding:1.5rem; background:var(--color-bg); border-top:1px solid var(--color-border);">
+                    <button class="btn btn-success" onclick="saveAllAttendance()">✅ Synchronize Daily Records</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="reportsPage" class="page hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+                <h2>Payroll Ledgers & Slips</h2>
+                <div style="display:flex; gap:10px">
+                    <input type="month" id="reportMonth" style="width:180px; margin-top:0;">
+                    <button class="btn btn-primary" onclick="generateReport()">Compile Payroll</button>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchReportInput" class="search-input" placeholder="સેલરી લિસ્ટ કે સ્લિપ શોધવા નામ ટાઈપ કરો..." onkeyup="filterReports()">
+            </div>
+
+            <div class="card" style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr style="background:var(--color-bg)">
+                            <th>Code</th><th>Name & Designation</th><th>Base Salary</th><th>P</th><th>A</th><th>H</th><th>Advance</th><th>Net Payout</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTableBody">
+                        <tr><td colspan="9" style="text-align:center; padding:2rem; color:var(--color-text-muted);">Execute month matrix compilation mapping.</td></tr>
+                    </tbody>
+                </table>
+                <div id="fullReportWaAction" class="hidden" style="padding: 1.5rem; text-align: right; background: var(--color-bg); border-top: 1px solid var(--color-border); display: flex; justify-content: flex-end; gap: 10px;">
+                    <button class="btn" style="background:#0f172a; color:#fff;" onclick="downloadFullReportPDF()">📥 Download Full Report PDF</button>
+                    <button class="btn btn-whatsapp" onclick="shareFullReportOnWhatsApp()">📢 Share Full Report on WhatsApp</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="slipTemplateContainer">
+        <div class="slip-header">
+            <h2>COMPANY SALARY ARCHIVE SLIP</h2>
+            <p id="slipStatementMonth">Timeline: May 2026</p>
         </div>
-      </div>
-
-      <div class="cards">
-        <div class="card"><div class="k">Today's Bills</div><div class="v" id="cardToday">0</div><div class="small-muted">Recent bills today</div></div>
-        <div class="card"><div class="k">Pending Print</div><div class="v" id="cardPending">0</div><div class="small-muted">Waiting for print</div></div>
-        <div class="card"><div class="k">Default GST</div><div class="v" id="cardGst">5%</div><div class="small-muted">Change in Settings</div></div>
-      </div>
-
-      <div class="recent panel" style="margin-top:14px">
-        <h3 style="margin:0;color:var(--accent1)">Recent Activity</h3>
-        <div class="activity-list" id="activityList"></div>
-      </div>
-    </section>
-
-    <!-- Add Bill -->
-    <section id="bill" class="panel app-section">
-      <h2 style="margin:0 0 12px;color:var(--accent1)">Add / Edit Bill</h2>
-      <form id="billForm">
-        <input type="hidden" id="editingBillId" value="">
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px"><label>Bill No</label><input id="billNo" readonly style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-          <div style="width:200px"><label>Date</label><input id="billDate" type="date" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
+        <div class="slip-meta-grid">
+            <div>
+                <strong>Code:</strong> <span id="slipEmpCode">-</span><br>
+                <strong>Name:</strong> <span id="slipEmpName">-</span><br>
+                <strong>Dept:</strong> <span id="slipEmpDept">-</span>
+            </div>
+            <div style="text-align: right;">
+                <strong>PAN Ref:</strong> <span id="slipEmpPan">-</span><br>
+                <strong>Date:</strong> <span id="slipGenDate">-</span>
+            </div>
         </div>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-          <div style="flex:1;min-width:200px"><label>Customer Name</label><input id="custName" required style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-          <div style="flex:1;min-width:200px"><label>Customer GST</label><input id="custGst" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-          <div style="width:200px"><label>Mobile</label><input id="custMobile" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-        </div>
-
-        <label style="margin-top:14px;display:block">Items</label>
-        <table id="itemsTable">
-          <thead><tr><th>Description</th><th style="width:80px">Qty</th><th style="width:120px">Rate (Incl.)</th><th style="width:80px">GST%</th><th style="width:110px">Base</th><th style="width:110px">SGST</th><th style="width:110px">CGST</th><th style="width:120px">Amount</th><th style="width:80px">Action</th></tr></thead>
-          <tbody id="itemsTbody"></tbody>
+        <table class="slip-table">
+            <thead><tr><th>Attendance Metrics</th><th style="text-align: right;">Value Log</th></tr></thead>
+            <tbody>
+                <tr><td>Present Roster (Full Shift Days)</td><td style="text-align: right;" id="slipDaysP">0</td></tr>
+                <tr><td>Half Shift Record Days</td><td style="text-align: right;" id="slipDaysH">0</td></tr>
+                <tr><td>Absent Unpaid Days</td><td style="text-align: right;" id="slipDaysA">0</td></tr>
+                <tr style="font-weight: 700; background: #f1f5f9;"><td>Net Computational Payable Days</td><td style="text-align: right;" id="slipPayableDays">0 Days</td></tr>
+            </tbody>
         </table>
-        <div style="margin-top:10px;display:flex;gap:8px">
-          <button type="button" onclick="addItemRow()" class="action-btn">Add Item Row</button>
-        </div>
-
-        <div style="margin-top:12px;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-          <div class="small-muted">Subtotal: <strong id="subtotal">₹0.00</strong></div>
-          <div class="small-muted">Total SGST: <strong id="totalSgst">₹0.00</strong></div>
-          <div class="small-muted">Total CGST: <strong id="totalCgst">₹0.00</strong></div>
-          <div style="font-weight:900;color:var(--accent1)">Grand Total: <span id="grandTotalDisplay">₹0.00</span></div>
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button type="submit" class="action-btn" style="background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#041014;border:none;padding:8px 12px;border-radius:8px">Save Bill</button>
-          <button type="button" onclick="clearBillForm()" class="action-btn">Clear</button>
-          <button type="button" onclick="openPrintPreviewCurrentBill()" class="action-btn print">Print Preview</button>
-        </div>
-      </form>
-    </section>
-
-    <!-- View Bills -->
-    <section id="viewBills" class="panel app-section">
-      <h2 style="margin:0 0 12px;color:var(--accent1)">View Bills</h2>
-      <div style="display:flex;gap:8px;align-items:center">
-        <input id="searchInput" placeholder="Search by customer or bill no" style="flex:1;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6" oninput="renderBills()">
-        <button onclick="renderBills()" class="action-btn">Search</button>
-      </div>
-      <div id="billList" style="margin-top:12px"></div>
-    </section>
-
-    <!-- Challan -->
-    <section id="challn" class="panel app-section">
-      <h2 style="margin:0 0 12px;color:var(--accent1)">Create Challan</h2>
-      <form id="challanForm">
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px"><label>Challan No</label><input id="challanNo" readonly style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-          <div style="width:200px"><label>Date</label><input id="challanDate" type="date" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-        </div>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-          <div style="flex:1;min-width:200px"><label>To (Customer)</label><input id="challanCust" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-          <div style="width:200px"><label>Mobile</label><input id="challanMobile" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></div>
-        </div>
-
-        <label style="margin-top:12px">Items (Challan)</label>
-        <table id="challanItemsTable">
-          <thead><tr><th>Description</th><th style="width:80px">Qty</th><th style="width:120px">Rate</th><th style="width:120px">Total</th><th style="width:80px">Action</th></tr></thead>
-          <tbody id="challanItemsTbody"></tbody>
+        <table class="slip-table">
+            <thead><tr><th>Payroll Breakdowns</th><th style="text-align: right;">Valuation (INR)</th></tr></thead>
+            <tbody>
+                <tr><td>Base Allocated Monthly Salary</td><td style="text-align: right;" id="slipBaseSalary">₹0</td></tr>
+                <tr><td>Loss of Pay (Absence Deductions)</td><td style="text-align: right; color: #ef4444;" id="slipDeductions">-₹0</td></tr>
+                <tr><td>Salary Advance Recovery</td><td style="text-align: right; color: #ef4444;" id="slipAdvanceDeduct">-₹0</td></tr>
+            </tbody>
         </table>
-        <div style="margin-top:10px;display:flex;gap:8px">
-          <button type="button" onclick="addChallanRow()" class="action-btn">Add Item Row</button>
+        <div class="slip-total-box">
+            <span>NET ACCOUNT DISBURSED PAYOUT:</span>
+            <span style="color: #16a34a;" id="slipNetPayout">₹0</span>
         </div>
-
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button type="submit" class="action-btn" style="background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#041014;border:none;padding:8px 12px;border-radius:8px">Save Challan</button>
-          <button type="button" onclick="clearChallanForm()" class="action-btn">Clear</button>
-        </div>
-      </form>
-    </section>
-
-    <!-- Settings -->
-    <section id="settings" class="panel app-section">
-      <h2 style="margin:0 0 12px;color:var(--accent1)">Settings</h2>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:260px">
-          <label>Company Name</label><input id="companyName" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6">
-          <label style="margin-top:8px">Company GST</label><input id="companyGst" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6">
-          <label style="margin-top:8px">Mobile</label><input id="companyMobile" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6">
-          <label style="margin-top:8px">Address</label><textarea id="companyAddress" rows="3" style="width:100%;padding:8px;border-radius:8px;background:#0b0b10;border:1px solid rgba(255,255,255,0.03);color:#e6eef6"></textarea>
-          <div style="margin-top:10px"><button onclick="saveSettings()" class="action-btn" style="background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#041014;border:none">Save Settings</button></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <aside>
-    <div class="side-panel panel">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:800;color:var(--accent1)">Quick Actions</div>
-        <div class="small-muted">Shortcuts</div>
-      </div>
-      <div class="quick-actions">
-        <div class="qa-btn" onclick="navigateTo('bill')">+ New Bill</div>
-        <div class="qa-btn" onclick="navigateTo('challn')">+ New Challan</div>
-        <div class="qa-btn" onclick="navigateTo('viewBills')">Manage Bills</div>
-        <div class="qa-btn" onclick="navigateTo('settings')">Company Settings</div>
-      </div>
-      <div class="small-muted" style="margin-top:12px">Tips: Click a row in View Bills to View / Edit / Print</div>
     </div>
-  </aside>
+</div>
+
+<div style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="fullReportPdfContainer">
+        <div class="report-pdf-header">
+            <h1 style="text-transform: uppercase;">BOOKSTALL- MONTHLY PAYROLL LEDGER</h1>
+            <p id="pdfReportTimeline">Timeline: -</p>
+        </div>
+        <table class="report-pdf-table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Employee Name</th>
+                    <th>Dept / Role</th>
+                    <th>Base Salary</th>
+                    <th>P</th>
+                    <th>A</th>
+                    <th>H</th>
+                    <th>Deduction</th>
+                    <th>Advance</th>
+                    <th>Net Disbursed</th>
+                </tr>
+            </thead>
+            <tbody id="pdfReportTableBody"></tbody>
+        </table>
+    </div>
 </div>
 
 <script>
-(() => {
-  /* Utilities */
-  function $(id){ return document.getElementById(id); }
-  function fmt(n){ return '₹' + (Number(n)||0).toFixed(2); }
-  function escapeHtml(t){ if(!t) return ''; return String(t).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+const state = {
+    employees: JSON.parse(localStorage.getItem('desk_emps')) || [],
+    attendance: JSON.parse(localStorage.getItem('desk_att')) || [],
+    settings: { lastRun: localStorage.getItem('desk_last_run') || '', theme: localStorage.getItem('desk_theme') || 'light' }
+};
 
-  /* Storage keys */
-  const BILLS_KEY = 'gstBills_v4';
-  const CH_KEY = 'gstChalln_v3';
-  const SET_KEY = 'gstSettings_v4';
+let selectedDeptTab = "All";
+const runtimeOtherNotes = {};
 
-  function loadBills(){ return JSON.parse(localStorage.getItem(BILLS_KEY) || '[]'); }
-  function saveBills(b){ localStorage.setItem(BILLS_KEY, JSON.stringify(b)); }
-  function loadChallans(){ return JSON.parse(localStorage.getItem(CH_KEY) || '[]'); }
-  function saveChallans(c){ localStorage.setItem(CH_KEY, JSON.stringify(c)); }
+function saveLocal() {
+    localStorage.setItem('desk_emps', JSON.stringify(state.employees));
+    localStorage.setItem('desk_att', JSON.stringify(state.attendance));
+    localStorage.setItem('desk_last_run', state.settings.lastRun);
+    localStorage.setItem('desk_theme', state.settings.theme);
+}
+function uid() { return 'id' + Math.random().toString(36).substr(2, 9); }
+function today() { return new Date().toISOString().split('T')[0]; }
 
-  /* Navigation */
-  const navButtons = document.querySelectorAll('nav.nav .nav-btn');
-  function setActiveNav(target){
-    navButtons.forEach(b => b.classList.toggle('active', b.dataset.target === target));
-  }
-  function showView(id){
-    document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active'));
-    const sec = document.getElementById(id);
-    if (sec) sec.classList.add('active');
-    setActiveNav(id);
-    // refresh lists when switching
-    if (id === 'viewBills') renderBills();
-    if (id === 'dashboard') renderDashboard();
-  }
-  // attach nav events
-  navButtons.forEach(b => b.addEventListener('click', () => showView(b.dataset.target)));
-  window.showView = showView;
-  window.navigateTo = (id) => { showView(id); window.scrollTo({top:0,behavior:'smooth'}); };
+function applyTheme() { document.documentElement.setAttribute('data-theme', state.settings.theme); }
+function toggleTheme() { state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light'; saveLocal(); applyTheme(); }
 
-  /* Bill number */
-  function generateBillNumber(){
-    const prefix='SM';
-    const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
-    const key = 'billCounter_' + today;
-    let c = parseInt(localStorage.getItem(key) || '0', 10) + 1;
-    localStorage.setItem(key, c);
-    return prefix + today + String(c).padStart(4,'0');
-  }
+function updateLiveClock() {
+    const now = new Date();
+    document.getElementById('liveClock').innerText = now.toLocaleTimeString();
+}
+setInterval(updateLiveClock, 1000);
 
-  /* Items table logic for bills */
-  const itemsTbody = $('itemsTbody');
-  function addItemRow(item){
-    item = item || { desc:'', qty:1, rate:0, gst:5 };
-    const tr = document.createElement('tr');
+function getPremiumBadge(dept, role) {
+    let styleClass = "";
+    let icon = "⚙️"; 
+    if(dept === "Production") icon = "🏭";
+    else if(dept === "Sales & Marketing") icon = "📈";
+    else if(dept === "Accounts") icon = "💰";
+    else if(dept === "Human Resources") icon = "👔";
 
-    const tdDesc = document.createElement('td');
-    const inpDesc = document.createElement('input'); inpDesc.type='text'; inpDesc.value = item.desc; inpDesc.style.width='100%';
-    tdDesc.appendChild(inpDesc);
+    if(role === 'Manager') {
+        icon = "👑 MGR:";
+        if(dept === "Production") styleClass = "bg-gold-prod";
+        else if(dept === "Sales & Marketing") styleClass = "bg-gold-sales";
+        else if(dept === "Accounts") styleClass = "bg-gold-accts";
+        else if(dept === "Human Resources") styleClass = "bg-gold-hr";
+    } else {
+        if(dept === "Production") styleClass = "bg-silver-prod";
+        else if(dept === "Sales & Marketing") styleClass = "bg-silver-sales";
+        else if(dept === "Accounts") styleClass = "bg-silver-accts";
+        else if(dept === "Human Resources") styleClass = "bg-silver-hr";
+    }
+    return `<span class="badge-base ${styleClass}">${icon} ${dept}</span>`;
+}
 
-    const tdQty = document.createElement('td');
-    const inpQty = document.createElement('input'); inpQty.type='number'; inpQty.min=1; inpQty.value = item.qty; inpQty.style.width='60px';
-    tdQty.appendChild(inpQty);
+function switchPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
+    document.getElementById(pageId + 'Page').classList.remove('hidden');
+    document.getElementById('nav-' + pageId).classList.add('active');
+    
+    if(pageId === 'employees') renderEmployees();
+    if(pageId === 'attendance') renderAttendance();
+    if(pageId === 'dashboard') renderStats();
+}
 
-    const tdRate = document.createElement('td');
-    const inpRate = document.createElement('input'); inpRate.type='number'; inpRate.step='0.01'; inpRate.min=0; inpRate.value = item.rate; inpRate.style.width='100px';
-    tdRate.appendChild(inpRate);
+function toggleEmpForm() { document.getElementById('empFormContainer').classList.toggle('hidden'); }
 
-    const tdGst = document.createElement('td');
-    const selGst = document.createElement('select');
-    [0,0.5,1,2.5,5,6,9,12,18,28].forEach(v=>{
-      const o = document.createElement('option'); o.value = v; o.textContent = v + '%'; if (Number(v) === Number(item.gst)) o.selected = true;
-      selGst.appendChild(o);
-    });
-    tdGst.appendChild(selGst);
-
-    const tdBase = document.createElement('td'); tdBase.className='right'; tdBase.textContent = fmt(0);
-    const tdSgst = document.createElement('td'); tdSgst.className='right'; tdSgst.textContent = fmt(0);
-    const tdCgst = document.createElement('td'); tdCgst.className='right'; tdCgst.textContent = fmt(0);
-    const tdAmount = document.createElement('td'); tdAmount.className='right'; tdAmount.textContent = fmt(0);
-
-    const tdAction = document.createElement('td');
-    const delBtn = document.createElement('button'); delBtn.type='button'; delBtn.textContent='Remove'; delBtn.className='action-btn';
-    delBtn.onclick = () => { tr.remove(); recalcTotals(); };
-    tdAction.appendChild(delBtn);
-
-    [inpQty, inpRate, selGst, inpDesc].forEach(el => el.addEventListener('input', recalcTotals));
-
-    tr.appendChild(tdDesc); tr.appendChild(tdQty); tr.appendChild(tdRate); tr.appendChild(tdGst);
-    tr.appendChild(tdBase); tr.appendChild(tdSgst); tr.appendChild(tdCgst); tr.appendChild(tdAmount); tr.appendChild(tdAction);
-
-    itemsTbody.appendChild(tr);
-    recalcTotals();
-  }
-
-  function computeLine(rateInclusive, qty, gstRate){
-    qty = Number(qty) || 0; rateInclusive = Number(rateInclusive) || 0; gstRate = Number(gstRate) || 0;
-    if (qty <= 0) qty = 1;
-    const basePerUnit = rateInclusive / (1 + gstRate/100);
-    const base = basePerUnit * qty;
-    const sgst = base * gstRate / 200;
-    const cgst = sgst;
-    const amount = base + sgst + cgst;
-    return { base: Number(base.toFixed(2)), sgst: Number(sgst.toFixed(2)), cgst: Number(cgst.toFixed(2)), amount: Number(amount.toFixed(2)) };
-  }
-
-  function recalcTotals(){
-    let subtotal = 0, totalSgst = 0, totalCgst = 0, grand = 0;
-    Array.from(itemsTbody.children).forEach(tr => {
-      const qty = Number(tr.children[1].querySelector('input').value) || 0;
-      const rate = Number(tr.children[2].querySelector('input').value) || 0;
-      const gst = Number(tr.children[3].querySelector('select').value) || 0;
-      const line = computeLine(rate, qty, gst);
-      tr.children[4].textContent = fmt(line.base);
-      tr.children[5].textContent = fmt(line.sgst);
-      tr.children[6].textContent = fmt(line.cgst);
-      tr.children[7].textContent = fmt(line.amount);
-      subtotal += line.base; totalSgst += line.sgst; totalCgst += line.cgst; grand += line.amount;
-    });
-    $('subtotal').textContent = fmt(subtotal);
-    $('totalSgst').textContent = fmt(totalSgst);
-    $('totalCgst').textContent = fmt(totalCgst);
-    $('grandTotalDisplay').textContent = fmt(grand);
-  }
-
-  function clearBillForm(){
-    $('editingBillId').value = '';
-    $('billNo').value = generateBillNumber();
-    $('billDate').valueAsDate = new Date();
-    $('custName').value = ''; $('custGst').value = ''; $('custMobile').value = '';
-    itemsTbody.innerHTML = ''; addItemRow({desc:'',qty:1,rate:0,gst:5});
-    recalcTotals();
-  }
-
-  /* Save bill */
-  document.getElementById('billForm').addEventListener('submit', (e) => {
+document.getElementById('employeeForm').addEventListener('submit', e => {
     e.preventDefault();
-    const editingId = $('editingBillId').value || null;
-    const billId = editingId || ('B' + Date.now());
-    const billNo = $('billNo').value || generateBillNumber();
-    const billDate = $('billDate').value || new Date().toISOString().slice(0,10);
-    const custName = $('custName').value.trim(); if (!custName) return alert('Customer name required');
-    const custGst = $('custGst').value.trim().toUpperCase(); const custMobile = $('custMobile').value.trim();
+    const id = document.getElementById('employeeId').value || uid();
+    const newEmp = {
+        id, code: document.getElementById('empCode').value,
+        name: document.getElementById('empName').value,
+        phone: document.getElementById('empPhone').value,
+        dept: document.getElementById('empDept').value,
+        role: document.getElementById('empRole').value || 'Staff',
+        salary: parseFloat(document.getElementById('empSalary').value) || 0,
+        advance: parseFloat(document.getElementById('empAdvance').value) || 0,
+        pan: document.getElementById('empPan').value || '-'
+    };
+    const idx = state.employees.findIndex(emp => emp.id === id);
+    if(idx > -1) state.employees[idx] = newEmp;
+    else state.employees.push(newEmp);
+    saveLocal(); toggleEmpForm(); document.getElementById('employeeForm').reset(); renderEmployees();
+});
 
-    const items = Array.from(itemsTbody.children).map(tr => ({
-      name: tr.children[0].querySelector('input').value.trim(),
-      qty: Number(tr.children[1].querySelector('input').value) || 0,
-      rate: Number(tr.children[2].querySelector('input').value) || 0,
-      gst: Number(tr.children[3].querySelector('select').value) || 0
-    })).filter(it => it.name);
+function renderEmployees() {
+    document.getElementById('empTableBody').innerHTML = state.employees.map(emp => {
+        return `
+            <tr class="emp-row">
+                <td><code>${emp.code}</code></td>
+                <td><strong>${emp.name}</strong></td>
+                <td><a href="https://wa.me/${emp.phone}" target="_blank" style="color:#25D366; text-decoration:none; font-weight:bold;">🟢 ${emp.phone || '-'}</a></td>
+                <td>${getPremiumBadge(emp.dept, emp.role || 'Staff')}</td>
+                <td>₹${emp.salary.toLocaleString('en-IN')}</td>
+                <td style="color:var(--color-danger)">₹${(emp.advance || 0).toLocaleString('en-IN')}</td>
+                <td>
+                    <button class="btn" style="padding:6px 12px; background:var(--color-bg);" onclick="editEmp('${emp.id}')">✏️</button>
+                    <button class="btn btn-danger" style="padding:6px 12px;" onclick="deleteEmp('${emp.id}')">🗑️</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
 
-    if (!items.length) return alert('Add at least one item with description');
-
-    let subtotal=0, totalSgst=0, totalCgst=0, grand=0;
-    items.forEach(it => { const line = computeLine(it.rate, it.qty, it.gst); subtotal += line.base; totalSgst += line.sgst; totalCgst += line.cgst; grand += line.amount; });
-
-    const bill = { id: billId, billNo, billDate, custName, custGst, custMobile, items, subtotal: subtotal.toFixed(2), totalSgst: totalSgst.toFixed(2), totalCgst: totalCgst.toFixed(2), total: grand.toFixed(2) };
-
-    let bills = loadBills();
-    const existingIndex = bills.findIndex(x => x.id === billId);
-    if (existingIndex >= 0) bills[existingIndex] = bill; else bills.push(bill);
-    saveBills(bills);
-
-    alert(editingId ? 'Bill updated' : 'Bill saved');
-    clearBillForm(); showView('viewBills'); renderBills(); renderDashboard();
-  });
-
-  /* Render bills list */
-  function renderBills(){
-    const q = ($('searchInput').value || '').trim().toLowerCase();
-    const bills = loadBills().slice().reverse();
-    if (!bills.length) { $('billList').innerHTML = '<div class="muted">No bills found</div>'; return; }
-    let html = '<table><thead><tr><th>Bill No</th><th>Date</th><th>Customer</th><th class="right">Total</th><th>Action</th></tr></thead><tbody>';
-    bills.forEach(b => {
-      if (q && !(b.billNo||'').toLowerCase().includes(q) && !(b.custName||'').toLowerCase().includes(q)) return;
-      html += `<tr>
-        <td>${escapeHtml(b.billNo)}</td>
-        <td>${escapeHtml(b.billDate)}</td>
-        <td>${escapeHtml(b.custName)}</td>
-        <td class="right">${fmt(b.total)}</td>
-        <td>
-          <button class="action-btn" onclick="viewBill('${b.id}')">View</button>
-          <button class="action-btn" onclick="editBill('${b.id}')">Edit</button>
-          <button class="action-btn" onclick="deleteBill('${b.id}')">Delete</button>
-          <button class="action-btn whatsapp" onclick="shareBillWhatsApp('${b.id}')">WhatsApp</button>
-          <button class="action-btn print" onclick="printBill('${b.id}')">Print</button>
-        </td>
-      </tr>`;
+function filterEmployees() {
+    const query = document.getElementById('searchEmpInput').value.toLowerCase();
+    document.querySelectorAll('.emp-row').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
     });
-    html += '</tbody></table>';
-    $('billList').innerHTML = html;
-  }
+}
 
-  /* View bill modal-like (open print preview) */
-  window.viewBill = function(id){
-    const bills = loadBills(); const b = bills.find(x => x.id === id); if (!b) return alert('Bill not found');
-    const html = getPrintTemplateHtml(b);
-    const w = window.open('', '_blank'); w.document.open(); w.document.write(html); w.document.close();
-  };
+function editEmp(id) {
+    const emp = state.employees.find(e => e.id === id);
+    document.getElementById('employeeId').value = emp.id;
+    document.getElementById('empCode').value = emp.code;
+    document.getElementById('empName').value = emp.name;
+    document.getElementById('empPhone').value = emp.phone || '';
+    document.getElementById('empDept').value = emp.dept;
+    document.getElementById('empRole').value = emp.role || 'Staff';
+    document.getElementById('empSalary').value = emp.salary;
+    document.getElementById('empAdvance').value = emp.advance || 0;
+    document.getElementById('empPan').value = emp.pan === '-' ? '' : emp.pan;
+    document.getElementById('empFormContainer').classList.remove('hidden');
+}
 
-  window.editBill = function(id){
-    const bills = loadBills(); const b = bills.find(x => x.id === id); if (!b) return alert('Bill not found');
-    $('editingBillId').value = b.id; $('billNo').value = b.billNo; $('billDate').value = b.billDate; $('custName').value = b.custName; $('custGst').value = b.custGst || ''; $('custMobile').value = b.custMobile || '';
-    itemsTbody.innerHTML = ''; b.items.forEach(it => addItemRow({desc:it.name,qty:it.qty,rate:it.rate,gst:it.gst})); recalcTotals();
-    showView('bill');
-  };
+function deleteEmp(id) {
+    if(confirm("Delete employee profile?")) { state.employees = state.employees.filter(e => e.id !== id); saveLocal(); renderEmployees(); }
+}
 
-  window.deleteBill = function(id){
-    if (!confirm('Delete this bill?')) return;
-    let bills = loadBills(); bills = bills.filter(b => b.id !== id); saveBills(bills); renderBills(); renderDashboard();
-  };
+function renderAttendance() {
+    const date = document.getElementById('attDate').value || today();
+    document.getElementById('attDate').value = date;
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const dayName = dayNames[new Date(date).getDay()];
+    const dayEl = document.getElementById('dayIndicator');
+    dayEl.innerText = `📆 ${dayName}`;
+    dayEl.style.color = (dayName === "Sunday") ? "var(--color-danger)" : "var(--color-accent)";
 
-  /* WhatsApp share (concise text) */
-  window.shareBillWhatsApp = function(id){
-    const bills = loadBills(); const b = bills.find(x => x.id === id); if (!b) return alert('Bill not found');
-    const s = JSON.parse(localStorage.getItem(SET_KEY) || '{}'); const companyName = s.company?.name || '';
-    let msg = (companyName ? companyName + '\n' : '') + `Bill: ${b.billNo}\nDate: ${b.billDate}\nCustomer: ${b.custName}${b.custGst ? ' (GST: '+b.custGst+')' : ''}\n\nItems:\n`;
-    (b.items||[]).slice(0,6).forEach(it => { msg += `• ${it.name} | ${it.qty} x ₹${Number(it.rate).toFixed(2)} | GST ${it.gst}%\n`; });
-    if ((b.items||[]).length>6) msg += `...and ${ (b.items||[]).length - 6 } more items\n`;
-    msg += `\nSubtotal: ₹${Number(b.subtotal).toFixed(2)}\nSGST: ₹${Number(b.totalSgst).toFixed(2)}\nCGST: ₹${Number(b.totalCgst).toFixed(2)}\nGrand Total: ₹${Number(b.total).toFixed(2)}\n`;
-    const encoded = encodeURIComponent(msg); const waUrl = `https://wa.me/?text=${encoded}`; window.open(waUrl, '_blank');
-  };
+    document.getElementById('attTableBody').innerHTML = state.employees.map(emp => {
+        const record = state.attendance.find(a => a.empId === emp.id && a.date === date) || { status: 'Present', note: '' };
+        let displayStyle = "";
+        if(selectedDeptTab === "ManagersOnly") displayStyle = (emp.role === 'Manager') ? "" : "none";
+        else displayStyle = (selectedDeptTab === "All" || emp.dept === selectedDeptTab) ? "" : "none";
 
-  /* Print */
-  window.printBill = function(id){
-    const bills = loadBills(); const b = bills.find(x => x.id === id); if (!b) return alert('Bill not found');
-    const html = getPrintTemplateHtml(b); const w = window.open('', '_blank'); w.document.open(); w.document.write(html); w.document.close(); setTimeout(()=>{ try{ w.print(); } catch(e){} }, 500);
-  };
+        const predefinedOptions = ["1. RAJA LAINE GAYA", "2. RAJA LIDHAVAGAR GAYA", "3. BIMAR CHE", "4. GHARE GAYA"];
+        let isOtherValue = false, selectedDropdownValue = "";
 
-  function getPrintTemplateHtml(bill){
-    const s = JSON.parse(localStorage.getItem(SET_KEY) || '{}'); const company = s.company || {};
-    const itemsHtml = (bill.items||[]).map(it => { const line = computeLine(it.rate,it.qty,it.gst); return `<tr><td>${escapeHtml(it.name)}</td><td style="text-align:center">${it.qty}</td><td style="text-align:right">₹${Number(it.rate).toFixed(2)}</td><td style="text-align:center">${it.gst}%</td><td style="text-align:right">₹${line.base.toFixed(2)}</td><td style="text-align:right">₹${line.sgst.toFixed(2)}</td><td style="text-align:right">₹${line.cgst.toFixed(2)}</td><td style="text-align:right">₹${line.amount.toFixed(2)}</td></tr>`; }).join('');
-    return `<!doctype html><html><head><meta charset="utf-8"><title>Bill ${escapeHtml(bill.billNo)}</title><style>body{font-family:Arial;margin:20px;color:#000}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #ddd}th{background:#f6f6f6}</style></head><body><div><strong>${escapeHtml(company.name||'Company Name')}</strong><div>${escapeHtml(company.address||'')}</div><div>GST: ${escapeHtml(company.gst||'')} | Mobile: ${escapeHtml(company.mobile||'')}</div></div><hr/><div><strong>Bill No:</strong> ${escapeHtml(bill.billNo)} &nbsp;&nbsp; <strong>Date:</strong> ${escapeHtml(bill.billDate)}</div><div style="margin-top:8px;"><strong>Bill To:</strong> ${escapeHtml(bill.custName)} ${bill.custGst ? ' | GST: ' + escapeHtml(bill.custGst) : ''} ${bill.custMobile ? ' | Mobile: ' + escapeHtml(bill.custMobile) : ''}</div><table style="margin-top:12px"><thead><tr><th>Description</th><th>Qty</th><th>Rate (Incl.)</th><th>GST%</th><th>Base</th><th>SGST</th><th>CGST</th><th>Amount</th></tr></thead><tbody>${itemsHtml}</tbody></table><div style="margin-top:12px; float:right; max-width:420px;"><div>Subtotal: ₹${Number(bill.subtotal).toFixed(2)}</div><div>Total SGST: ₹${Number(bill.totalSgst).toFixed(2)}</div><div>Total CGST: ₹${Number(bill.totalCgst).toFixed(2)}</div><div><strong>Grand Total: ₹${Number(bill.total).toFixed(2)}</strong></div></div><div style="clear:both; margin-top:40px;">Amount in words: <strong>${numberToWords(Math.round(Number(bill.total)||0))} only</strong></div></body></html>`;
-  }
+        if(record.note && record.status !== 'Present') {
+            if(predefinedOptions.includes(record.note)) selectedDropdownValue = record.note;
+            else if(record.note !== 'Automated') { selectedDropdownValue = "5. OTHER"; isOtherValue = true; runtimeOtherNotes[emp.id] = record.note; }
+        }
 
-  /* Number to words */
-  function numberToWords(num){ const a=['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen']; const b=['','', 'twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety']; function inWords(n){ if(n<20) return a[n]; if(n<100) return b[Math.floor(n/10)] + (n%10 ? ' ' + a[n%10] : ''); if(n<1000) return a[Math.floor(n/100)] + ' hundred' + (n%100 ? ' and ' + inWords(n%100) : ''); if(n<100000) return inWords(Math.floor(n/1000)) + ' thousand ' + (n%1000 ? inWords(n%1000) : ''); if(n<10000000) return inWords(Math.floor(n/100000)) + ' lakh ' + (n%100000 ? inWords(n%100000) : ''); return inWords(Math.floor(n/10000000)) + ' crore ' + (n%10000000 ? inWords(n%10000000) : ''); } if(num===0) return 'zero'; else return inWords(num).trim(); }
+        return `
+            <tr class="att-row" data-dept="${emp.dept}" data-role="${emp.role || 'Staff'}" style="display: ${displayStyle}">
+                <td><code>${emp.code}</code></td>
+                <td><strong class="att-search-name">${emp.name}</strong> <span style="margin-left:8px;">${getPremiumBadge(emp.dept, emp.role || 'Staff')}</span></td>
+                <td>
+                    <select id="status_${emp.id}" onchange="onStatusChange('${emp.id}')" style="margin-top:0; width:140px;">
+                        <option value="Present" ${record.status === 'Present' ? 'selected' : ''}>Present</option>
+                        <option value="Absent" ${record.status === 'Absent' ? 'selected' : ''}>Absent</option>
+                        <option value="Half Day" ${record.status === 'Half Day' ? 'selected' : ''}>Half Day</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="note_select_${emp.id}" class="remark-dropdown-style" onchange="onRemarkDropdownChange('${emp.id}')" style="margin-top:0; width:100%;">
+                        <option value="" ${selectedDropdownValue === "" ? 'selected' : ''}>-- સેટ નથી / હાજર --</option>
+                        <option value="1. RAJA LAINE GAYA" ${selectedDropdownValue === "1. RAJA LAINE GAYA" ? 'selected' : ''}>1. RAJA LAINE GAYA</option>
+                        <option value="2. RAJA LIDHAVAGAR GAYA" ${selectedDropdownValue === "2. RAJA LIDHAVAGAR GAYA" ? 'selected' : ''}>2. RAJA LIDHAVAGAR GAYA</option>
+                        <option value="3. BIMAR CHE" ${selectedDropdownValue === "3. BIMAR CHE" ? 'selected' : ''}>3. BIMAR CHE</option>
+                        <option value="4. GHARE GAYA" ${selectedDropdownValue === "4. GHARE GAYA" ? 'selected' : ''}>4. GHARE GAYA</option>
+                        <option value="5. OTHER" ${isOtherValue ? 'selected' : ''}>5. OTHER (અન્ય કારણ લખો...)</option>
+                    </select>
+                    <div id="other_label_container_${emp.id}" style="font-size:11px; margin-top:4px; color:var(--color-accent); font-weight:700;">
+                        ${isOtherValue ? '👉 કારણ: ' + record.note : ''}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+    state.employees.forEach(emp => onStatusChange(emp.id));
+}
 
-  /* Dashboard rendering */
-  function renderDashboard(){
-    const bills = loadBills(); const challns = loadChallans();
-    $('dashBills').textContent = bills.length;
-    $('dashSales').textContent = fmt(bills.reduce((s,b)=>s+Number(b.total||0),0));
-    $('dashProfit').textContent = fmt(challns.reduce((s,c)=>s+Number(c.profit||0),0));
-    const today = new Date().toISOString().slice(0,10);
-    $('cardToday').textContent = bills.filter(b=>b.billDate===today).length;
-    $('cardPending').textContent = bills.filter(b=>!b.printed).length;
-    // recent activity
-    const recent = bills.slice(-6).reverse().map(b=>({type:'Bill', id:b.billNo, date:b.billDate, total:b.total, name:b.custName}));
-    const list = $('activityList'); list.innerHTML = '';
-    if(!recent.length) list.innerHTML = '<div class="muted">No recent activity</div>';
-    else recent.forEach(r=>{ const div=document.createElement('div'); div.className='activity-item'; div.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div class="dot">${r.type[0]}</div><div><div style="font-weight:800">${r.type} ${r.id}</div><div style="color:var(--muted)">${r.name} • ${r.date}</div></div></div><div style="font-weight:800;color:var(--accent1)">${fmt(r.total)}</div>`; list.appendChild(div); });
-  }
+function onStatusChange(empId) {
+    const select = document.getElementById('status_' + empId);
+    const remarkDropdown = document.getElementById('note_select_' + empId);
+    if(!select) return;
+    select.className = select.value === 'Present' ? 'status-present' : select.value === 'Absent' ? 'status-absent' : 'status-half';
+    if(select.value === 'Absent' || select.value === 'Half Day') remarkDropdown.classList.add('remark-required-border');
+    else remarkDropdown.classList.remove('remark-required-border');
+    calculateLiveCounters();
+}
 
-  /* Settings load/save */
-  function loadSettings(){
-    const s = JSON.parse(localStorage.getItem(SET_KEY) || '{}'); const comp = s.company || {};
-    $('companyName').value = comp.name || ''; $('companyGst').value = comp.gst || ''; $('companyMobile').value = comp.mobile || ''; $('companyAddress').value = comp.address || '';
-    $('dashCompany').textContent = comp.name || 'Company Name';
-    $('dashCompanySub').textContent = `GST: ${comp.gst||'-'}  •  Mobile: ${comp.mobile||'-'}  •  Surat`;
-    $('cardGst').textContent = (s.print && s.print.defaultGst) ? s.print.defaultGst + '%' : '5%';
-  }
-  function saveSettings(){
-    const s = { company: { name: $('companyName').value.trim(), gst: $('companyGst').value.trim().toUpperCase(), mobile: $('companyMobile').value.trim(), address: $('companyAddress').value.trim() }, print: { defaultGst: 5 } };
-    localStorage.setItem(SET_KEY, JSON.stringify(s)); alert('Settings saved'); loadSettings(); renderDashboard();
-  }
+function onRemarkDropdownChange(empId) {
+    const dropdown = document.getElementById('note_select_' + empId);
+    const labelContainer = document.getElementById('other_label_container_' + empId);
+    if(dropdown && dropdown.value === "5. OTHER") {
+        const customReason = prompt("ગેરહાજરીનું અન્ય કારણ અહીં ટાઈપ કરો:", runtimeOtherNotes[empId] || "");
+        if (customReason && customReason.trim() !== "") {
+            runtimeOtherNotes[empId] = customReason.trim();
+            labelContainer.innerHTML = `👉 કારણ: ${customReason.trim()}`;
+        } else if (!runtimeOtherNotes[empId]) {
+            dropdown.value = ""; labelContainer.innerHTML = "";
+        }
+    } else if(labelContainer) { labelContainer.innerHTML = ""; }
+}
 
-  /* Print preview from current form */
-  window.openPrintPreviewCurrentBill = function(){
-    const bill = { billNo: $('billNo').value || generateBillNumber(), billDate: $('billDate').value || new Date().toISOString().slice(0,10), custName: $('custName').value || '', custGst: $('custGst').value || '', custMobile: $('custMobile').value || '', items: Array.from(itemsTbody.children).map(tr=>({ name: tr.children[0].querySelector('input').value.trim(), qty: Number(tr.children[1].querySelector('input').value)||0, rate: Number(tr.children[2].querySelector('input').value)||0, gst: Number(tr.children[3].querySelector('select').value)||5 })) };
-    let subtotal=0,totalSgst=0,totalCgst=0,grand=0; bill.items.forEach(it=>{ const line=computeLine(it.rate,it.qty,it.gst); subtotal+=line.base; totalSgst+=line.sgst; totalCgst+=line.cgst; grand+=line.amount; });
-    bill.subtotal=subtotal.toFixed(2); bill.totalSgst=totalSgst.toFixed(2); bill.totalCgst=totalCgst.toFixed(2); bill.total=grand.toFixed(2);
-    const html = getPrintTemplateHtml(bill); const w = window.open('', '_blank'); w.document.open(); w.document.write(html); w.document.close();
-  };
-
-  /* Challan simple rows */
-  const challanItemsTbody = $('challanItemsTbody');
-  function addChallanRow(item){
-    item = item || { desc:'', qty:1, rate:0 };
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td><input type="text" value="${escapeHtml(item.desc)}" style="width:100%"></td>
-      <td><input type="number" value="${item.qty}" min="1" style="width:60px"></td>
-      <td><input type="number" value="${item.rate}" step="0.01" style="width:100px"></td>
-      <td class="right">₹0.00</td>
-      <td><button type="button" class="action-btn">Remove</button></td>`;
-    tr.querySelector('button').onclick = ()=>{ tr.remove(); updateChallanTotals(); };
-    Array.from(tr.querySelectorAll('input')).forEach(i=>i.addEventListener('input', updateChallanTotals));
-    challanItemsTbody.appendChild(tr); updateChallanTotals();
-  }
-  function updateChallanTotals(){
-    let total=0;
-    Array.from(challanItemsTbody.children).forEach(tr=>{
-      const qty = Number(tr.children[1].querySelector('input').value)||0;
-      const rate = Number(tr.children[2].querySelector('input').value)||0;
-      const t = qty*rate; tr.children[3].textContent = fmt(t); total += t;
+function calculateLiveCounters() {
+    let t = 0, p = 0, a = 0, h = 0;
+    state.employees.forEach(emp => {
+        const select = document.getElementById('status_' + emp.id);
+        if(select) {
+            t++;
+            if(select.value === 'Present') p++;
+            if(select.value === 'Absent') a++;
+            if(select.value === 'Half Day') h++;
+        }
     });
-  }
-  function clearChallanForm(){ $('challanNo').value = 'CH' + Date.now(); $('challanDate').valueAsDate = new Date(); $('challanCust').value=''; $('challanMobile').value=''; challanItemsTbody.innerHTML=''; addChallanRow(); }
-  document.getElementById('challanForm').addEventListener('submit', (e)=>{ e.preventDefault(); const chNo = $('challanNo').value || ('CH'+Date.now()); const chDate = $('challanDate').value || new Date().toISOString().slice(0,10); const cust = $('challanCust').value.trim(); if(!cust) return alert('Customer required'); const items = Array.from(challanItemsTbody.children).map(tr=>({ name: tr.children[0].querySelector('input').value.trim(), qty: Number(tr.children[1].querySelector('input').value)||0, rate: Number(tr.children[2].querySelector('input').value)||0 } )).filter(it=>it.name); if(!items.length) return alert('Add items'); let total=0; items.forEach(it=> total += it.qty*it.rate); const chall = { chNo, date: chDate, cust, mobile: $('challanMobile').value.trim(), items, total: total.toFixed(2), profit:0 }; const chs = loadChallans(); chs.push(chall); saveChallans(chs); alert('Challan saved'); clearChallanForm(); renderDashboard(); });
+    if(document.getElementById('miniTotal')) {
+        document.getElementById('miniTotal').innerText = t;
+        document.getElementById('miniPresent').innerText = p;
+        document.getElementById('miniAbsent').innerText = a;
+        document.getElementById('miniHalf').innerText = h;
+    }
+}
 
-  /* Init */
-  function boot(){
-    $('billNo').value = generateBillNumber(); $('billDate').valueAsDate = new Date();
-    $('challanNo').value = 'CH' + Date.now(); $('challanDate').valueAsDate = new Date();
-    itemsTbody.innerHTML = ''; addItemRow({desc:'',qty:1,rate:0,gst:5});
-    challanItemsTbody.innerHTML = ''; addChallanRow();
-    loadSettings(); renderDashboard(); renderBills();
-  }
-  document.addEventListener('DOMContentLoaded', boot);
-})();
+function bulkMarkStatus(status) {
+    state.employees.forEach(emp => {
+        const select = document.getElementById('status_' + emp.id);
+        const dropdown = document.getElementById('note_select_' + emp.id);
+        const labelContainer = document.getElementById('other_label_container_' + emp.id);
+        if(select) {
+            let shouldMark = false;
+            if(selectedDeptTab === "All") shouldMark = true;
+            else if(selectedDeptTab === "ManagersOnly" && emp.role === 'Manager') shouldMark = true;
+            else if(emp.dept === selectedDeptTab) shouldMark = true;
+
+            if(shouldMark) {
+                select.value = status === 'Clear' ? 'Present' : status;
+                if(status === 'Clear' && dropdown) { dropdown.value = ""; labelContainer.innerHTML = ""; delete runtimeOtherNotes[emp.id]; }
+                onStatusChange(emp.id);
+            }
+        }
+    });
+}
+
+function filterDeptTab(dept, btn) {
+    selectedDeptTab = dept;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterAttendance();
+}
+
+function filterAttendance() {
+    const query = document.getElementById('searchAttInput').value.toLowerCase();
+    document.querySelectorAll('.att-row').forEach(row => {
+        const name = row.querySelector('.att-search-name').textContent.toLowerCase();
+        const rowDept = row.getAttribute('data-dept');
+        const rowRole = row.getAttribute('data-role');
+        let matchesTab = (selectedDeptTab === "All" || (selectedDeptTab === "ManagersOnly" && rowRole === "Manager") || rowDept === selectedDeptTab);
+        row.style.display = (matchesTab && name.includes(query)) ? "" : "none";
+    });
+}
+
+let currentCompiledReport = [];
+function generateReport() {
+    const month = document.getElementById('reportMonth').value; if(!month) return alert("Select month timeline.");
+    const tbody = document.getElementById('reportTableBody'); tbody.innerHTML = ""; currentCompiledReport = [];
+
+    state.employees.forEach(emp => {
+        const monthly = state.attendance.filter(a => a.empId === emp.id && a.date.startsWith(month));
+        const p = monthly.filter(a => a.status === 'Present').length;
+        const a = monthly.filter(a => a.status === 'Absent').length;
+        const h = monthly.filter(a => a.status === 'Half Day').length;
+        const payableDays = p + (h * 0.5);
+        let deduction = Math.round(((emp.salary || 0) / 30) * (30 - payableDays));
+        let netSalary = Math.round(((emp.salary || 0) / 30) * payableDays) - (emp.advance || 0);
+        if(netSalary < 0) netSalary = 0;
+
+        currentCompiledReport.push({ 
+            name: emp.name, 
+            code: emp.code, 
+            dept: emp.dept,
+            role: emp.role || 'Staff',
+            salary: emp.salary, 
+            p: p, 
+            a: a, 
+            h: h, 
+            advance: emp.advance || 0, 
+            deduction: deduction,
+            net: netSalary,
+            month: month
+        });
+
+        tbody.innerHTML += `
+            <tr class="report-row">
+                <td><code>${emp.code}</code></td>
+                <td><strong class="report-search-name">${emp.name}</strong> <span style="margin-left:6px;">${getPremiumBadge(emp.dept, emp.role || 'Staff')}</span></td>
+                <td>₹${emp.salary}</td><td>${p}</td><td>${a}</td><td>${h}</td>
+                <td style="color:var(--color-danger)">₹${emp.advance}</td>
+                <td style="font-weight:900; color:var(--color-success)">₹${netSalary.toLocaleString('en-IN')}</td>
+                <td>
+                    <button class="btn btn-primary" style="padding:4px 8px; font-size:11px;" onclick="printSingleSlip('${emp.id}', '${month}')">🖨️ Slip</button>
+                    <button class="btn btn-whatsapp" style="padding:4px 8px; font-size:11px;" onclick="shareSlipOnWhatsApp('${emp.id}', '${month}')">🟢 WA</button>
+                </td>
+            </tr>
+        `;
+    });
+    if(state.employees.length > 0) document.getElementById('fullReportWaAction').classList.remove('hidden');
+}
+
+function filterReports() {
+    const query = document.getElementById('searchReportInput').value.toLowerCase();
+    document.querySelectorAll('.report-row').forEach(row => {
+        const name = row.querySelector('.report-search-name').textContent.toLowerCase();
+        row.style.display = name.includes(query) ? "" : "none";
+    });
+}
+
+function shareSlipOnWhatsApp(empId, month) {
+    const emp = state.employees.find(e => e.id === empId); if(!emp) return;
+    const monthly = state.attendance.filter(a => a.empId === emp.id && a.date.startsWith(month));
+    const p = monthly.filter(a => a.status === 'Present').length, a = monthly.filter(a => a.status === 'Absent').length, h = monthly.filter(a => a.status === 'Half Day').length;
+    const payableDays = p + (h * 0.5);
+    let deduction = Math.round(((emp.salary || 0) / 30) * (30 - payableDays));
+    let net = Math.round(((emp.salary || 0) / 30) * payableDays) - (emp.advance || 0); if(net < 0) net = 0;
+
+    let message = `*📄 JAY SWAMINARAYAN*%0A` +
+                  `-----------------------------------%0A` +
+                  `*Timeline:* ${month}%0A` +
+                  `*Emp Code:* ${emp.code}%0A` +
+                  `*Name:* ${emp.name}%0A` +
+                  `-----------------------------------%0A` +
+                  `*Present (P):* ${p} Days%0A` +
+                  `*Absent (A):* ${a} Days%0A` +
+                  `*Half Day (H):* ${h} Days%0A` +
+                  `*Payable Days:* ${payableDays} Days%0A` +
+                  `-----------------------------------%0A` +
+                  `*Base Salary:* ₹${emp.salary.toLocaleString('en-IN')}%0A` +
+                  `*Unpaid Deduction:* ₹${deduction.toLocaleString('en-IN')}%0A` +
+                  `*Advance (ઉપાડ):* ₹${(emp.advance || 0).toLocaleString('en-IN')}%0A` +
+                  `-----------------------------------%0A` +
+                  `*NET PAYOUT:* ₹${net.toLocaleString('en-IN')}%0A` +
+                  `-----------------------------------%0A` +
+                  `_SALRY SLIP_`;
+                  
+    window.open(`https://api.whatsapp.com/send?phone=${emp.phone}&text=${message}`, '_blank');
+}
+
+function shareFullReportOnWhatsApp() {
+    if (currentCompiledReport.length === 0) return alert("પહેલા Payroll કમ્પાઈલ કરો.");
+    
+    const month = document.getElementById('reportMonth').value;
+    
+    let tableHeader = `*📊 PAYROLL LEDGER REPORT - ${month}*\n` +
+                      `\`\`\`\n` +
+                      `-------------------------------------------\n` +
+                      `CODE | NAME       | P/A/H | ADV  | NET PAY \n` +
+                      `-------------------------------------------\n`;
+                      
+    let tableRows = "";
+    currentCompiledReport.forEach(item => {
+        let padCode = item.code.padEnd(4, ' ').substring(0, 4);
+        let padName = item.name.padEnd(10, ' ').substring(0, 10);
+        let attSummary = `${item.p}/${item.a}/${item.h}`.padEnd(5, ' ');
+        let padAdv = `₹${item.advance}`.padEnd(4, ' ');
+        let padNet = `₹${item.net}`.padEnd(7, ' ');
+        
+        tableRows += `${padCode} | ${padName} | ${attSummary} | ${padAdv} | ${padNet}\n`;
+    });
+    
+    let tableFooter = `-------------------------------------------\n\`\`\`\n_Generated via "BOOKSTALL" V6.0.0_`;
+    let finalMessage = encodeURIComponent(tableHeader + tableRows + tableFooter);
+    window.open(`https://api.whatsapp.com/send?text=${finalMessage}`, '_blank');
+}
+
+function printSingleSlip(empId, month) {
+    const emp = state.employees.find(e => e.id === empId); if(!emp) return;
+    const monthly = state.attendance.filter(a => a.empId === emp.id && a.date.startsWith(month));
+    const p = monthly.filter(a => a.status === 'Present').length, a = monthly.filter(a => a.status === 'Absent').length, h = monthly.filter(a => a.status === 'Half Day').length;
+    const payableDays = p + (h * 0.5);
+    let deduction = Math.round(((emp.salary || 0) / 30) * (30 - payableDays));
+    let net = Math.round(((emp.salary || 0) / 30) * payableDays) - (emp.advance || 0); if(net < 0) net = 0;
+
+    document.getElementById('slipStatementMonth').innerText = "Timeline: " + month;
+    document.getElementById('slipEmpCode').innerText = emp.code;
+    document.getElementById('slipEmpName').innerText = emp.name;
+    document.getElementById('slipEmpDept').innerText = emp.dept;
+    document.getElementById('slipDaysP').innerText = p;
+    document.getElementById('slipDaysH').innerText = h;
+    document.getElementById('slipDaysA').innerText = a;
+    document.getElementById('slipPayableDays').innerText = payableDays + " Days";
+    document.getElementById('slipBaseSalary').innerText = "₹" + emp.salary.toLocaleString('en-IN');
+    document.getElementById('slipDeductions').innerText = "-₹" + deduction.toLocaleString('en-IN');
+    document.getElementById('slipAdvanceDeduct').innerText = "-₹" + (emp.advance || 0).toLocaleString('en-IN');
+    document.getElementById('slipNetPayout').innerText = "₹" + net.toLocaleString('en-IN');
+    html2pdf().set({ margin:0.5, filename:`Slip_${emp.code}.pdf`, html2canvas:{scale:2.5} }).from(document.getElementById('slipTemplateContainer')).save();
+}
+
+/* NEW: DOWNLOAD MONTHLY FULL LEDGER REPORT IN PDF FORMAT */
+function downloadFullReportPDF() {
+    if (currentCompiledReport.length === 0) return alert("પહેલા Payroll કમ્પાઈલ કરો.");
+    
+    const month = document.getElementById('reportMonth').value;
+    document.getElementById('pdfReportTimeline').innerText = "Timeline / Month: " + month;
+    
+    const pdfTbody = document.getElementById('pdfReportTableBody');
+    pdfTbody.innerHTML = "";
+    
+    currentCompiledReport.forEach(item => {
+        pdfTbody.innerHTML += `
+            <tr>
+                <td><strong>${item.code}</strong></td>
+                <td><b>${item.name}</b></td>
+                <td>${item.dept} (${item.role})</td>
+                <td>₹${item.salary.toLocaleString('en-IN')}</td>
+                <td style="color:#15803d; font-weight:bold;">${item.p}</td>
+                <td style="color:#b91c1c; font-weight:bold;">${item.a}</td>
+                <td style="color:#92400e;">${item.h}</td>
+                <td style="color:#ef4444;">₹${item.deduction.toLocaleString('en-IN')}</td>
+                <td style="color:#ef4444;">₹${item.advance.toLocaleString('en-IN')}</td>
+                <td style="color:#16a34a; font-weight:bold;">₹${item.net.toLocaleString('en-IN')}</td>
+            </tr>
+        `;
+    });
+    
+    const opt = {
+        margin: 0.3,
+        filename: `Full_Payroll_Report_${month}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+    
+    html2pdf().set(opt).from(document.getElementById('fullReportPdfContainer')).save();
+}
+
+function exportBackup() {
+    try {
+        const selectDate = document.getElementById('attDate').value || today();
+        const parts = selectDate.split('-');
+        const formattedDate = (parts.length === 3) ? `${parts[2]}-${parts[1]}-${parts[0]}` : selectDate;
+        const filename = `HAJRI_${formattedDate}.json`;
+        
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", filename);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    } catch (err) {
+        alert("Export failure: " + err.message);
+    }
+}
+
+function importBackup(event) {
+    const file = event.target.files[0]; 
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) { 
+        try {
+            const parsed = JSON.parse(e.target.result); 
+            if(parsed && (parsed.employees || parsed.attendance)) { 
+                state.employees = parsed.employees || []; 
+                state.attendance = parsed.attendance || []; 
+                if(parsed.settings) state.settings = parsed.settings;
+                
+                saveLocal(); 
+                alert("Vault Imported Successfully! System will refresh now."); 
+                window.location.reload(); 
+            } else {
+                alert("Invalid backup file structure.");
+            }
+        } catch (err) {
+            alert("Error parsing backup file: " + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function runAutoPresent(force = false) {
+    const date = today();
+    if(force || (new Date().getHours() >= 10 && state.settings.lastRun !== date)) {
+        state.employees.forEach(emp => { if(!state.attendance.find(a => a.empId === emp.id && a.date === date)) state.attendance.push({ empId: emp.id, date, status: 'Present', note: 'Automated' }); });
+        state.settings.lastRun = date; saveLocal(); renderStats();
+    }
+}
+
+function renderStats() {
+    const total = state.employees.length;
+    const present = state.attendance.filter(a => a.date === today() && a.status === 'Present').length;
+    const absent = state.attendance.filter(a => a.date === today() && a.status === 'Absent').length;
+    const half = state.attendance.filter(a => a.date === today() && a.status === 'Half Day').length;
+
+    document.getElementById('statTotal').innerText = total;
+    document.getElementById('statPresent').innerText = present;
+    document.getElementById('statAbsent').innerText = absent;
+    document.getElementById('statHalf').innerText = half;
+
+    const pPct = total > 0 ? Math.round((present / total) * 100) : 0;
+    const aPct = total > 0 ? Math.round((absent / total) * 100) : 0;
+    const hPct = total > 0 ? Math.round((half / total) * 100) : 0;
+
+    document.getElementById('presentBar').style.width = pPct + "%";
+    document.getElementById('absentBar').style.width = aPct + "%";
+    document.getElementById('halfBar').style.width = hPct + "%";
+
+    document.getElementById('presentPctLabel').innerText = `${pPct}% Attendance Rate`;
+    document.getElementById('absentPctLabel').innerText = `${aPct}% Absence Rate`;
+    document.getElementById('halfPctLabel').innerText = `${hPct}% Half Day Rate`;
+}
+
+window.onload = () => { applyTheme(); document.getElementById('reportMonth').value = today().slice(0,7); runAutoPresent(); renderStats(); };
+document.getElementById('runAutoBtn').onclick = () => runAutoPresent(true);
+document.getElementById('attDate').onchange = renderAttendance;
 </script>
 </body>
 </html>
